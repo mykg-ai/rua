@@ -7,4 +7,7 @@ go get -u gorm.io/gorm
 go get -u gorm.io/driver/mysql
 
 go get -u gopkg.in/ini.v1
+
+# https://gopkg.in/yaml.v3
+go get -u gopkg.in/yaml.v3
 ```

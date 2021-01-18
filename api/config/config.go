@@ -3,53 +3,44 @@
  */
 package config
 
-import "C"
 import (
 	"flag"
 	"fmt"
-	"gopkg.in/ini.v1"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	"os"
 )
 
 var (
-	Env string
-	Server server
-	dbConfig db
+	Env    string
+	Config config
 )
 
-type server struct {
-	HttpPort string
+type config struct {
+	Server struct {
+		Port string
+	} `yaml:",flow"`
+	DB struct {
+		Host     string
+		Port     string
+		Database string
+		User     string
+		Password string
+	} `yaml:"db,flow"`
 }
-
-type db struct {
-	Host string
-	Port string
-	Database string
-	User string
-	Password string
-}
-
-/** === config === */
 
 func Setup() {
 	env := flag.String("env", "local", "运行环境")
 	flag.Parse()
 	Env = *env
-	cfg, err := ini.Load(fmt.Sprintf("./config/%s.ini", *env))
+	ymlBytes, err := ioutil.ReadFile(fmt.Sprintf("./config/%s.yml", *env))
 	if err != nil {
-		fmt.Printf("Fail to read file: %v", err)
-		os.Exit(1)
+		panic(err)
 	}
-	toBean(cfg, "server", &Server)
-	toBean(cfg, "db", &dbConfig)
-
-	ConnectDB()
-	MigrateDomains()
-}
-
-func toBean(cfg *ini.File, section string, bean interface{}) {
-	err := cfg.Section(section).MapTo(bean)
-	if err != nil {
-		fmt.Printf("ini map %s error: %v", section, err)
+	if err := yaml.Unmarshal([]byte(os.ExpandEnv(string(ymlBytes))), &Config); err != nil {
+		panic(err)
 	}
+
+	connectDB()
+	migrateDomains()
 }

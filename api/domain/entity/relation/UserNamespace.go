@@ -11,8 +11,8 @@ import (
 type UserNamespace struct {
 	embed.BasicEmbed `gorm:"embedded"`
 
-	Uid  uint64    `gorm:"index:idx_un,priority:1;not null" json:"uid"`
-	Nid  uint64    `gorm:"index:idx_un,priority:2;not null" json:"nid"`
+	Uid  uint64    `gorm:"uniqueIndex:idx_un,priority:1;not null" json:"uid"`
+	Nid  uint64    `gorm:"uniqueIndex:idx_un,priority:2;not null" json:"nid"`
 	Role enum.Role `gorm:"size:20;not null" json:"role"`
 }
 

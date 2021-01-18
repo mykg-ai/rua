@@ -7,24 +7,26 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"mykg.ai/rua/config"
+	ERR "mykg.ai/rua/err"
+	R "mykg.ai/rua/err/r"
 	"mykg.ai/rua/web/ns_route"
-	"net/http"
 )
 
 func Setup() {
 	r := gin.Default()
+	r.Use(ERR.Recover)
 
 	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "healthy!")
+		R.Ok(c, nil)
 	})
 
 	ns_route.Setup(r)
 
-	if config.Env != "local" {
+	if config.Env == "prod" {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
 		gin.SetMode(gin.DebugMode)
 	}
 
-	_ = r.Run(fmt.Sprintf(":%s", config.Server.HttpPort))
+	_ = r.Run(fmt.Sprintf(":%s", config.Config.Server.Port))
 }

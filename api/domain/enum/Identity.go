@@ -6,6 +6,6 @@ package enum
 type Identity string
 
 const (
-	ROOT Identity = "ROOT"
+	ADMIN Identity = "ADMIN"
 	USER Identity = "USER"
 )

@@ -6,19 +6,18 @@ name|means
 -|-
 Namespace|空间，简称ns
 Link|一条短链接
-Identity|一个用户在系统中的角色，Root是超级用户，User为普通用户
+Identity|一个用户在系统中的角色，Admin是超级用户，User为普通用户
 Uid|用户的唯一id
 Nid|namespace的唯一id
-Lid|Link的唯一id
-Tid|Tag的唯一id
+FVid|FoldView的唯一id
 
 ## 短路径黑名单
 
 name|why
 -|-
 /|根路径
-/root|超级后台
-/admin|后台
+/admin/**|超级后台
+/dashboard/**|后台
 
 ## 访问频率限制
 
@@ -43,27 +42,15 @@ class User {
 	CreateAt
 	UpdateAt
 
+  UID
   Username
   Password
   Identity
 }
 
 enum Identity {
-  ROOT
+  ADMIN
   USER
-}
-
-class Link {
-  ID
-	CreateAt
-	UpdateAt
-	Creator
-
-  Nid
-  Short
-  Target
-  Description
-  Enable
 }
 
 class UserNamespace {
@@ -83,6 +70,19 @@ enum Role {
   VIEWER
 }
 
+class Link {
+  ID
+	CreateAt
+	UpdateAt
+	Creator
+
+  Nid
+  Short
+  Target
+  Description
+  Enable
+}
+
 class Tag {
   ID
 	CreateAt
@@ -99,12 +99,44 @@ class LinkTag {
 	UpdateAt
 	Creator
 
-  Lid
-  Tid
+  LinkId
+  TagId
+}
+
+package folder{
+  class FolderView {
+    ID
+    CreateAt
+    UpdateAt
+    Creator
+
+    Name
+    Nid
+  }
+
+  class Folder {
+    ID
+    CreateAt
+    UpdateAt
+    Creator
+
+    Path
+    FVid
+  }
+
+  class FolderTag {
+    ID
+    CreateAt
+    UpdateAt
+    Creator
+
+    FolderId
+    TagId
+  }
 }
 
 User }-left- Identity
-UserNamespace }-- Role
+UserNamespace }-up- Role
 "Namespace" *-- Link
 "Namespace" *-- Tag
 
@@ -114,11 +146,14 @@ User -- Namespace
 Link -right- Tag
 (Link, Tag) . LinkTag
 
+Namespace *-right- FolderView
+FolderView *-right- Folder
+(Tag, Folder) . FolderTag
+
+
 hide methods
 @enduml
 ```
-
-// TODO: FolderView 和 Folder：在一个FolderView下，通过Tag组织起Folder。
 
 ## 日志
 
@@ -167,7 +202,7 @@ class UsageLog {
 	CreateAt
 	Creator
 
-  Lid
+  LinkId
   Ip
   UserAgent
 }

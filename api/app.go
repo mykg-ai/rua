@@ -4,10 +4,8 @@
 package main
 
 import (
-	"fmt"
 	"mykg.ai/rua/config"
 	"mykg.ai/rua/web"
-	"os"
 )
 
 func init() {
@@ -15,16 +13,5 @@ func init() {
 }
 
 func main()  {
-	env := os.Getenv("env")
-	var path string
-	if env == "" {
-		path = "hi"
-	} else {
-		path = "yo"
-	}
-	fmt.Println("====")
-	fmt.Print(path)
-
-
 	web.Setup()
 }

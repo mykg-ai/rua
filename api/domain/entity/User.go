@@ -9,10 +9,11 @@ import (
 )
 
 type User struct {
-	ID        uint `gorm:"primary_key"`
+	ID        uint64 `gorm:"primary_key"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
+	UID      string        `gorm:"uniqueIndex:id_uid;size:40;not null" json:"uid"`
 	Username string        `gorm:"uniqueIndex:idx_u;size:20;not null" json:"username"`
 	Password string        `gorm:"size:20;not null" json:"password"`
 	Identity enum.Identity `gorm:"size:20;not null" json:"identity"`

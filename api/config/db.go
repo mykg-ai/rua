@@ -13,14 +13,16 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDB() {
+func connectDB() {
+	var a = Config
+	fmt.Println(a)
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN: fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-			dbConfig.User,
-			dbConfig.Password,
-			dbConfig.Host,
-			dbConfig.Port,
-			dbConfig.Database),
+			Config.DB.User,
+			Config.DB.Password,
+			Config.DB.Host,
+			Config.DB.Port,
+			Config.DB.Database),
 		DefaultStringSize: 255,
 		DisableDatetimePrecision: true,
 		DontSupportRenameIndex: true,
@@ -33,18 +35,22 @@ func ConnectDB() {
 	DB = db
 }
 
-func MigrateDomains()  {
-	/** relationship */
-	DB.AutoMigrate(&r.LinkTag{})
-	DB.AutoMigrate(&r.UserNamespace{})
+func migrateDomains()  {
+	_ = DB.AutoMigrate(
+		/** relationship */
+		&r.FolderTag{},
+		&r.LinkTag{},
+		&r.UserNamespace{},
 
-	/** domain */
-	DB.AutoMigrate(&entity.Link{})
-	DB.AutoMigrate(&entity.Namespace{})
-	DB.AutoMigrate(&entity.Tag{})
-	DB.AutoMigrate(&entity.User{})
+		/** domain */
+		&entity.Folder{},
+		&entity.FolderView{},
+		&entity.Link{},
+		&entity.Namespace{},
+		&entity.OpLog{},
+		&entity.Tag{},
+		&entity.UsageLog{},
+		&entity.User{},
 
-	/** log */
-	DB.AutoMigrate(&entity.OpLog{})
-	DB.AutoMigrate(&entity.UsageLog{})
+		)
 }

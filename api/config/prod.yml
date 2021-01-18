@@ -1,0 +1,8 @@
+server:
+  port: 8080
+mysql:
+  host: ${MYSQL_HOST}
+  port: ${MYSQL_PORT}
+  database: ${MYSQL_DATABASE}
+  user: ${MYSQL_USER}
+  password: ${MYSQL_PASSWORD}

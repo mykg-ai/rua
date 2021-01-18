@@ -8,8 +8,8 @@ import "mykg.ai/rua/domain/embed"
 type LinkTag struct {
 	embed.BasicEmbed `gorm:"embedded"`
 
-	Lid uint64	`gorm:"index:idx_lt,priority:1;not null" json:"lid"`
-	Tid uint64	`gorm:"index:idx_lt,priority:2;not null" json:"tid"`
+	LinkId uint64 `gorm:"uniqueIndex:idx_lt,priority:1;not null" json:"link_id"`
+	TagId  uint64 `gorm:"uniqueIndex:idx_lt,priority:2;not null" json:"tag_id"`
 }
 
 func (LinkTag) TableName() string {
