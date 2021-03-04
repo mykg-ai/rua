@@ -30,3 +30,11 @@ func Error(c *gin.Context, code uint, msg string) {
 		Msg:  msg,
 	})
 }
+
+func Unauthorized(c *gin.Context, code uint, msg string) {
+	c.JSON(http.StatusUnauthorized, R{
+		Data: nil,
+		Code: code,
+		Msg:  msg,
+	})
+}

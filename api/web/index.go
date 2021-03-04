@@ -10,6 +10,7 @@ import (
 	ERR "mykg.ai/rua/err"
 	R "mykg.ai/rua/err/r"
 	"mykg.ai/rua/web/ns_route"
+	"mykg.ai/rua/web/user_route"
 )
 
 func Setup() {
@@ -21,6 +22,7 @@ func Setup() {
 	})
 
 	ns_route.Setup(r)
+	user_route.Setup(r)
 
 	if config.Env == "prod" {
 		gin.SetMode(gin.ReleaseMode)

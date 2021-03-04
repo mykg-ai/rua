@@ -27,6 +27,9 @@ type config struct {
 		User     string
 		Password string
 	} `yaml:"db,flow"`
+	JWT struct {
+		SecretKey string `yaml:"secretKey"`
+	} `yaml:"jwt,flow"`
 }
 
 func Setup() {
@@ -40,7 +43,6 @@ func Setup() {
 	if err := yaml.Unmarshal([]byte(os.ExpandEnv(string(ymlBytes))), &Config); err != nil {
 		panic(err)
 	}
-
 	connectDB()
 	migrateDomains()
 }

@@ -14,8 +14,6 @@ import (
 var DB *gorm.DB
 
 func connectDB() {
-	var a = Config
-	fmt.Println(a)
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN: fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 			Config.DB.User,
@@ -23,10 +21,10 @@ func connectDB() {
 			Config.DB.Host,
 			Config.DB.Port,
 			Config.DB.Database),
-		DefaultStringSize: 255,
-		DisableDatetimePrecision: true,
-		DontSupportRenameIndex: true,
-		DontSupportRenameColumn: true,
+		DefaultStringSize:         255,
+		DisableDatetimePrecision:  true,
+		DontSupportRenameIndex:    true,
+		DontSupportRenameColumn:   true,
 		SkipInitializeWithVersion: false,
 	}), &gorm.Config{})
 	if err != nil {
@@ -35,7 +33,7 @@ func connectDB() {
 	DB = db
 }
 
-func migrateDomains()  {
+func migrateDomains() {
 	_ = DB.AutoMigrate(
 		/** relationship */
 		&r.FolderTag{},
@@ -51,6 +49,5 @@ func migrateDomains()  {
 		&entity.Tag{},
 		&entity.UsageLog{},
 		&entity.User{},
-
-		)
+	)
 }

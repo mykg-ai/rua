@@ -6,3 +6,5 @@ mysql:
   database: ${MYSQL_DATABASE}
   user: ${MYSQL_USER}
   password: ${MYSQL_PASSWORD}
+jwt:
+  secretKey: ${JWT_SECRET_KEY}

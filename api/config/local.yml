@@ -5,4 +5,8 @@ db:
   port: 3306
   database: go
   user: root
-  password: handsome_goddy
+  password:
+jwt:
+  secretKey: your_rua_secret_key
+
+
