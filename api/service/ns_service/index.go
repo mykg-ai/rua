@@ -8,15 +8,37 @@ import (
 	"mykg.ai/rua/domain/entity"
 )
 
-func CreateNs(name string) (entity.Namespace, error) {
-	ns := entity.Namespace{Name: name}
-	result := config.DB.Create(&ns)
+func CreateNamespace(namespace *entity.Namespace) (entity.Namespace, error) {
+	result := config.DB.Create(&namespace)
 	if result.Error != nil {
-		return ns, result.Error
+		return *namespace, result.Error
 	}
-	return ns, nil
+	return *namespace, nil
 }
 
-func GetNs() {
+func FindNamespaces() ([]entity.Namespace, error) {
+	var namespaces []entity.Namespace
+	err := config.DB.Find(&namespaces).Error
+	if err != nil {
+		return []entity.Namespace{}, err
+	}
+	return namespaces, nil
+}
 
+func FindNamespace(id uint64) (entity.Namespace, error) {
+	var namespace entity.Namespace
+	err := config.DB.Where("id = ?", id).First(&namespace).Error
+	if err != nil {
+		return entity.Namespace{}, err
+	}
+	return namespace, nil
+}
+
+func DeleteNamespace(id uint64) error {
+	var namespace entity.Namespace
+	err := config.DB.Where("id = ?", id).Delete(&namespace).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

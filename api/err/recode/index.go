@@ -17,6 +17,8 @@ var (
 	TOKEN_ERROR       = Recode{Code: 1006, Msg: "Token不正确,请重新登陆"}
 	TOKEN_TYPE_ERROR  = Recode{Code: 1007, Msg: "Token格式错误,请重新登陆"}
 	USER_UNAUTHORIZED = Recode{Code: 1008, Msg: "用户未经授权"}
+
+	NAMESPACE_ALREADY_EXIST = Recode{Code: 1009, Msg: "空间名称重复"}
 )
 
 type Recode struct {

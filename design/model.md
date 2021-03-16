@@ -4,10 +4,9 @@
 
 name|means
 -|-
-Namespace|空间，简称ns
+Namespace|空间
 Link|一条短链接
 Identity|一个用户在系统中的角色，Admin是超级用户，User为普通用户
-Uid|用户的唯一id
 Nid|namespace的唯一id
 FVid|FoldView的唯一id
 
